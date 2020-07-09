@@ -20,7 +20,7 @@ public class UserController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward = "";
         String action = request.getParameter("action");
-        if (action != null && "ConnectDB".equals(action)) {
+        if (action != null && "GetConnect".equals(action)) {
             InputStream in = null;
             try {
                 PrintWriter pw = response.getWriter();
@@ -33,8 +33,7 @@ public class UserController extends HttpServlet {
             return;
         }
 
-        RequestDispatcher view = request.getRequestDispatcher(forward);
-        view.forward(request, response);
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
