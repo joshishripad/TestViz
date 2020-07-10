@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Enumeration;
 import java.util.Map;
 
 @WebServlet(
@@ -19,7 +20,7 @@ public class HelloServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response)
             throws ServletException, IOException {
-        doPost(req,response);
+        handleRequest(req, response, "GET");
       /*  ServletContext sc = getServletContext();
         String action=req.getParameter("action");
         String imgPath="/images/sampleCar.png";
@@ -52,11 +53,28 @@ public class HelloServlet extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse response) throws IOException {
-       ServletInputStream inputStream= req.getInputStream();
+        handleRequest(req, response, "POST");
+    }
 
+    private void handleRequest(HttpServletRequest req, HttpServletResponse response, String method) throws IOException {
+        ServletInputStream inputStream= req.getInputStream();
         BufferedReader bufferedReader=null;
         StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append("Request Method: ").append(method).append("\n\n");
+        stringBuilder.append("Remote Details: \n");
+        stringBuilder.append("Address: ").append(req.getRemoteAddr()).append("\n");
+        stringBuilder.append("Port").append(req.getRemotePort()).append("\n");
+        stringBuilder.append("Host").append(req.getRemoteHost()).append("\n");
+        stringBuilder.append("User").append(req.getRemoteUser()).append("\n");
+        stringBuilder.append("URI").append(req.getRequestURI()).append("\n");
+        stringBuilder.append("Method").append(req.getMethod()).append("\n");
+        Enumeration<String> headerNames = req.getHeaderNames();
 
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            stringBuilder.append("Header Name: ").append(headerName).append("\n");
+            stringBuilder.append("Header: ").append(req.getHeader(headerName)).append("\n");
+        }
         Map<String, String[]> parameterMap=req.getParameterMap();
         parameterMap.forEach((key,val)->{
             stringBuilder.append(key).append(":").append(val).append("\n");
@@ -75,7 +93,5 @@ public class HelloServlet extends HttpServlet {
 
         response.getWriter().print(stringBuilder.toString());
     }
-
 }
-
 
