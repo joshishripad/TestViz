@@ -2,13 +2,13 @@ package servlet;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.util.Map;
 
 @WebServlet(
         name = "MyServlet",
@@ -48,6 +48,31 @@ public class HelloServlet extends HttpServlet {
                 }
             }
         }
+    }
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse response) throws IOException {
+       ServletInputStream inputStream= req.getInputStream();
+
+        BufferedReader bufferedReader=null;
+        StringBuilder stringBuilder=new StringBuilder();
+
+        Map<String, String[]> parameterMap=req.getParameterMap();
+        parameterMap.forEach((key,val)->{
+            stringBuilder.append(key).append(":").append(val).append("\n");
+        });
+        stringBuilder.append("\nRequest Body:\n");
+        if (inputStream != null) {
+            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String line=null;
+            while ((line = bufferedReader.readLine()) !=null) {
+                stringBuilder.append(line).append("\n");
+
+            }
+        } else {
+            stringBuilder.append("");
+        }
+
+        response.getWriter().print(stringBuilder.toString());
     }
 
 }
