@@ -1,1 +1,3 @@
+launch\Main.class
 entrypoint\UserController.class
+servlet\HelloServlet.class
