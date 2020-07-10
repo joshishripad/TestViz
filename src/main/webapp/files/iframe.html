@@ -12,17 +12,16 @@ function receiveMessage(event) {
 }
 function content(paramMap) {
 var content = document.getElementById("child.container");
-var debug = document.getElementById("child.debugInfo");
-console.log(debug.innerText);
 content.innerText = JSON.stringify(paramMap);
 }
 </script>
 </head>
 <body onload='init()'>
-<div id="child.container" />
+<div id="child.container">
+</div>
 <hr />
 <div id="child.debugInfo">
-DEBUGINFOHERE
+$DEBUG$
 </div>
 </body>
 </html>
