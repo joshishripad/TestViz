@@ -19,7 +19,8 @@ public class HelloServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response)
             throws ServletException, IOException {
-        ServletContext sc = getServletContext();
+        doPost(req,response);
+      /*  ServletContext sc = getServletContext();
         String action=req.getParameter("action");
         String imgPath="/images/sampleCar.png";
         if (action!=null && !action.isEmpty()){
@@ -47,7 +48,7 @@ public class HelloServlet extends HttpServlet {
                     os.write(buffer, 0, bytesRead);
                 }
             }
-        }
+        }*/
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse response) throws IOException {
