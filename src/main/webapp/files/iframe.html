@@ -1,0 +1,25 @@
+<html>
+<head><title>IFrame</title>
+    <script language="Javascript">
+function init() {
+	window.addEventListener("message", receiveMessage, false);
+}
+function receiveMessage(event) {
+  console.log("from child window!");
+  console.log(event.data);
+  var paramMap = JSON.parse(event.data);
+  content(paramMap);
+}
+function content(paramMap) {
+var content = document.getElementById("child.container");
+
+content.innerText = JSON.stringify(paramMap);
+}
+</script>
+</head>
+<body onload='init()'>
+<div id="child.container" />
+<hr />
+$DEBUG$
+</body>
+</html>

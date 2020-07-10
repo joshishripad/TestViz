@@ -91,7 +91,23 @@ public class HelloServlet extends HttpServlet {
             stringBuilder.append("");
         }
 
+        ServletContext sc = getServletContext();
+        String iFramePath = "files/iframe.html";
+        InputStream iFrameInputStream = sc.getResourceAsStream(iFramePath);
+        PrintWriter writer = response.getWriter();
+        if (iFrameInputStream!=null) {
+            BufferedReader iFrameReader = new BufferedReader(new InputStreamReader(iFrameInputStream));
+            String line = null;
+            while ((line=iFrameReader.readLine())!=null) {
+                if ("$DEBUG$".equalsIgnoreCase(line)) {
+                    writer.println(stringBuilder.toString());
+                } else {
+                    writer.println(line);
+                }
+            }
+            iFrameReader.close();
+        }
+        else
         response.getWriter().print(stringBuilder.toString());
     }
 }
-
