@@ -17,7 +17,7 @@ import java.io.OutputStream;
 public class HelloServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse response)
             throws ServletException, IOException {
         ServletContext sc = getServletContext();
 
