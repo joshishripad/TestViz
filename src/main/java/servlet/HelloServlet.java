@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -25,10 +26,10 @@ public class HelloServlet extends HttpServlet {
         ServletOutputStream out = resp.getOutputStream();
         BufferedImage joinedImg=null;
         File imgFile= new File (getServletContext().getRealPath("/resources/sampleCar.png"));
-        ImageIO.write(joinedImg, "png", imgFile);
-        ByteArrayOutputStream imgBytes = new ByteArrayOutputStream();
-        ImageIO.write(joinedImg, "png", imgBytes);
-        out.write(imgBytes.toByteArray());
+        resp.setHeader("Content-Type", getServletContext().getMimeType(imgFile.getName()));
+        resp.setHeader("Content-Length", String.valueOf(imgFile.length()));
+        resp.setHeader("Content-Disposition", "inline; filename=\"" + imgFile.getName() + "\"");
+        Files.copy(imgFile.toPath(), out);
         out.flush();
         out.close();
     }
