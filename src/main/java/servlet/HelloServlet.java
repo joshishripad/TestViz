@@ -17,11 +17,16 @@ import java.io.OutputStream;
 public class HelloServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse response)
+    protected void doGet(HttpServletRequest req, HttpServletResponse response)
             throws ServletException, IOException {
         ServletContext sc = getServletContext();
+        String action=req.getParameter("action");
+        String imgPath="/images/sampleCar.png";
+        if (action!=null && !action.isEmpty()){
+            imgPath="/images/BlueCar.PNG";
+        }
 
-        try (InputStream is = sc.getResourceAsStream("/images/sampleCar.png")) {
+        try (InputStream is = sc.getResourceAsStream(imgPath)) {
 
             // it is the responsibility of the container to close output stream
             OutputStream os = response.getOutputStream();
