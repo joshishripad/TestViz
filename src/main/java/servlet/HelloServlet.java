@@ -1,7 +1,11 @@
 package servlet;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +23,12 @@ public class HelloServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         ServletOutputStream out = resp.getOutputStream();
-        out.write("hello heroku".getBytes());
+        BufferedImage joinedImg=null;
+        File imgFile= new File (getServletContext().getRealPath("/resources/sampleCar.png"));
+        ImageIO.write(joinedImg, "png", imgFile);
+        ByteArrayOutputStream imgBytes = new ByteArrayOutputStream();
+        ImageIO.write(joinedImg, "png", imgBytes);
+        out.write(imgBytes.toByteArray());
         out.flush();
         out.close();
     }
