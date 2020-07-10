@@ -1,37 +1,50 @@
 package servlet;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-
-import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 @WebServlet(
         name = "MyServlet",
-        urlPatterns = {"/hello"}
+        urlPatterns = {"/image"}
 )
 public class HelloServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet(HttpServletRequest req, HttpServletResponse response)
             throws ServletException, IOException {
-        ServletOutputStream out = resp.getOutputStream();
-        BufferedImage joinedImg=null;
-        File imgFile= new File (getServletContext().getRealPath("/resources/sampleCar.png"));
-        resp.setHeader("Content-Type", getServletContext().getMimeType(imgFile.getName()));
-        resp.setHeader("Content-Length", String.valueOf(imgFile.length()));
-        resp.setHeader("Content-Disposition", "inline; filename=\"" + imgFile.getName() + "\"");
-        Files.copy(imgFile.toPath(), out);
-        out.flush();
-        out.close();
+        ServletContext sc = getServletContext();
+
+        try (InputStream is = sc.getResourceAsStream("/images/sampleCar.png")) {
+
+            // it is the responsibility of the container to close output stream
+            OutputStream os = response.getOutputStream();
+
+            if (is == null) {
+
+                response.setContentType("text/plain");
+                os.write("Failed to send image".getBytes());
+            } else {
+
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+
+                response.setContentType("image/png");
+
+                while ((bytesRead = is.read(buffer)) != -1) {
+
+                    os.write(buffer, 0, bytesRead);
+                }
+            }
+        }
     }
 
 }
+
+
