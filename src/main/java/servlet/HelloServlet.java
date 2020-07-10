@@ -99,7 +99,7 @@ public class HelloServlet extends HttpServlet {
             BufferedReader iFrameReader = new BufferedReader(new InputStreamReader(iFrameInputStream));
             String line = null;
             while ((line=iFrameReader.readLine())!=null) {
-                if ("$DEBUG$".equalsIgnoreCase(line)) {
+                if (line.contains("DEBUGINFOHERE")) {
                     writer.println(stringBuilder.toString());
                 } else {
                     writer.println(line);
