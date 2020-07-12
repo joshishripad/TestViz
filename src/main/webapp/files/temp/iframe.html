@@ -1,0 +1,48 @@
+<html>
+<head><title>IFrame</title>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script language="Javascript">
+var data=undefined;
+function init() {
+	window.addEventListener("message", receiveMessage, false);
+}
+function receiveMessage(event) {
+  console.log("from child window!");
+  console.log(event.data);
+  data=event.data;
+  frames[0].postMessage(data, "*");
+  }
+
+
+function fullScreen() {
+	console.log("calling requestFullscreen()");
+	var iframe = document.getElementById("child.container.iframe");
+	var imgInline=document.getElementById("img1");
+	openFullscreen(iframe);
+	console.log("done calling requestFullscreen()");
+	frames[0].postMessage(data, "*");
+}
+function openFullscreen(elem) {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { /* Firefox */
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    elem.msRequestFullscreen();
+  }
+}
+</script>
+</head>
+<body onload='init()'>
+<iframe allowfullscreen="true" src="iframe_content_div.html" id="child.container.iframe" height="150px" width="600px">
+</iframe>
+<hr />
+<div id="child.debugInfo">
+$DEBUG$
+</div>
+<hr />
+<a href="#" onClick="fullScreen()">Full Screen</a>
+</body>
+</html>

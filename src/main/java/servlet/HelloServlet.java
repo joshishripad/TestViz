@@ -92,7 +92,7 @@ public class HelloServlet extends HttpServlet {
         }
 
         ServletContext sc = getServletContext();
-        String iFramePath = "files/iframe.html";
+        String iFramePath = "files/temp/iframe.html";
         InputStream iFrameInputStream = sc.getResourceAsStream(iFramePath);
         PrintWriter writer = response.getWriter();
         if (iFrameInputStream!=null) {
