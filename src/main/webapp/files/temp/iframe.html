@@ -9,7 +9,7 @@ function init() {
 	
 }
 function receiveMessage(event) {
-  console.log("from child window!");
+  console.log("recieving message in iframe.html window!");
   console.log(event.data);
   data=event.data;
   frames[0].postMessage(data, "*");
@@ -40,13 +40,13 @@ function openFullscreen(elem) {
 <body onload='init()'>
 <hr />
 <a href="#" onClick="fullScreen()">Full Screen</a>
-<iframe allowfullscreen="true" src="files/temp/iframe_content_div.html" id="child.container.iframe" height="150px" width="600px">
+<hr />
+<iframe allowfullscreen="true" src="iframe_content_div.html" id="child.container.iframe" height="150px" width="600px">
 </iframe>
 <hr />
 <div id="child.debugInfo">
 $DEBUG$
 </div>
 <hr />
-<a href="#" onClick="fullScreen()">Full Screen</a>
 </body>
 </html>
