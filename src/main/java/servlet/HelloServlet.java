@@ -101,7 +101,12 @@ public class HelloServlet extends HttpServlet {
             while ((line=iFrameReader.readLine())!=null) {
                 if ("$DEBUG$".equalsIgnoreCase(line)) {
                     writer.println(stringBuilder.toString());
-                } else {
+                }else if (line.contains("$ChildIframehtml$")){
+                   String iframeChildContent= getFileContent(sc.getResourceAsStream("files/temp/iframe_content_div.html"));
+                   line=line.replace("$ChildIframehtml$",iframeChildContent);
+                    writer.println(line);
+                }
+                else {
                     writer.println(line);
                 }
             }
@@ -109,5 +114,19 @@ public class HelloServlet extends HttpServlet {
         }
         else
         response.getWriter().print(stringBuilder.toString());
+    }
+    public  String getFileContent(InputStream fis) throws IOException
+    {
+        try( BufferedReader br =
+                     new BufferedReader( new InputStreamReader(fis)))
+        {
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while(( line = br.readLine()) != null ) {
+                sb.append( line );
+                sb.append( '\n' );
+            }
+            return sb.toString();
+        }
     }
 }

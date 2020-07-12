@@ -1,5 +1,29 @@
 <html>
 <head>
+    <style type="text/css"> 
+        html { 
+            overflow: auto; 
+        } 
+          
+        html, 
+        body, 
+        div, 
+        iframe { 
+            margin: 0px; 
+            padding: 0px; 
+            height: 100%; 
+            border: none; 
+        } 
+          
+        iframe { 
+            display: block; 
+            width: 100%; 
+            border: none; 
+            overflow-y: auto; 
+            overflow-x: hidden; 
+        } 
+    </style> 
+
 <title>Testing if we can post message to iframe</title>
 <script language="Javascript">
 function post() {
@@ -20,6 +44,6 @@ Name <input type="text" name="a" value="a1" />
 Name <input type="text" name="b" value="b1" />
 </form>
 <a href="#" onClick="post()">Refresh</a><br />
-<iframe allowfullscreen="true" id="child" name="child" src="file://c:/temp/iframe.html" width="600px" height="600px" />
+<iframe allowfullscreen="true" id="child" name="child" src="iframe.html" ></iframe>
 </body>
 </html>
