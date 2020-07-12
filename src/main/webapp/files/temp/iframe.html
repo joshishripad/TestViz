@@ -6,14 +6,7 @@
 var data=undefined;
 function init() {
 	window.addEventListener("message", receiveMessage, false);
-	var iframe = document.createElement('iframe');
-	iframe.srcdoc = "$ChildIframehtml$";
-	iframe.allowfullscreen=true;
-	iframe.id="child.container.iframe";
-	iframe.height="150px" ;
-	iframe.width="600px";
-	document.body.appendChild(iframe);
-
+	
 }
 function receiveMessage(event) {
   console.log("from child window!");
@@ -45,7 +38,7 @@ function openFullscreen(elem) {
 </script>
 </head>
 <body onload='init()'>
-
+<iframe allowfullscreen="true" src="files/temp/iframe_content_div.html" id="child.container.iframe" height="150px" width="600px">
 </iframe>
 <hr />
 <div id="child.debugInfo">
