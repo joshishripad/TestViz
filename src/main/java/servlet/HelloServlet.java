@@ -123,7 +123,7 @@ public class HelloServlet extends HttpServlet {
             StringBuilder sb = new StringBuilder();
             String line;
             while(( line = br.readLine()) != null ) {
-                sb.append( line );
+                sb.append( line ).append("\"+");
                 sb.append( '\n' );
             }
             return sb.toString();
