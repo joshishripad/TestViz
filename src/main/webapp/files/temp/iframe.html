@@ -10,8 +10,12 @@ function init() {
 function receiveMessage(event) {
   console.log("recieving message in iframe.html window!");
   console.log(event.data);
+  //Tested from Tacton CPQ, when resize Browser, iframe is getting message of resize.Hence , ignore the recived messages other than parameters.
   data=event.data;
-  frames[0].postMessage(data, "*");
+  var parsedData=JSON.parse(data);
+	  if (parsedData.type==="parameters"){
+		frames[0].postMessage(data, "*");
+	  }
   }
 
 
