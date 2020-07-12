@@ -15,15 +15,7 @@ function receiveMessage(event) {
 function content(paramMap) {
 var content = document.getElementById("child.container");
 content.innerText = JSON.stringify(paramMap);
-  var element = document.createElement("input");
-  element.type = "button";
-  element.value = "X"; 
-  element.id = "exit";
-  content.appendChild(element);
-  element.onclick= function(){  
-	window.close();
-	
-  };
+  
 }
 </script>
 </head>
