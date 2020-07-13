@@ -11,17 +11,26 @@ function receiveMessage(event) {
   var paramMap = JSON.parse(event.data);
   content(paramMap);
 }
+function closeFullscreen() {
+var data={FullScreen:"exit"};
+data=JSON.stringify(data);
+document.getElementById("exit").style.display="none";
+window.parent.postMessage(data, "*");
+}
 
 function content(paramMap) {
 var content = document.getElementById("child.container");
 content.innerText = JSON.stringify(paramMap);
-  
+document.getElementById("exit").style.display="block";
 }
 </script>
 </head>
 <body onload='init()' style="background-color:skyblue;">
-<div id="child.container">
+<div id="child.container" style="float:left">
 This is a test
+</div>
+<div>
+<input type="button" id ="exit"  style="float:right;display:none" onclick="closeFullscreen()" value="X"> 
 </div>
 </body>
 </html>

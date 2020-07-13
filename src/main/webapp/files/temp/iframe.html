@@ -11,13 +11,14 @@ function receiveMessage(event) {
   console.log("recieving message in iframe.html window!");
   console.log(event.data);
   //Tested from Tacton CPQ, when resize Browser, iframe is getting message of resize.Hence , ignore the recived messages other than parameters.
-  data=event.data;
-  var parsedData=JSON.parse(data);
+  var parsedData=JSON.parse(event.data);
 	  if (parsedData.type==="parameters"){
-		frames[0].postMessage(data, "*");
+		data=event.data;
+  		frames[0].postMessage(data, "*");
+	  }else if (parsedData.FullScreen==="exit"){
+		exitFullscreen();
 	  }
   }
-
 
 function fullScreen() {
 	console.log("calling requestFullscreen()");
@@ -27,8 +28,19 @@ function fullScreen() {
 	console.log("done calling requestFullscreen()");
 	frames[0].postMessage(data, "*");
 }
+function exitFullscreen() {
+if (document.exitFullscreen) {
+	document.exitFullscreen();
+ } else if (document.mozCancelFullScreen) {
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
+  }
+}
 function openFullscreen(elem) {
-  if (elem.requestFullscreen) {
+ if (elem.requestFullscreen) {
     elem.requestFullscreen();
   } else if (elem.mozRequestFullScreen) { /* Firefox */
     elem.mozRequestFullScreen();
@@ -38,13 +50,14 @@ function openFullscreen(elem) {
     elem.msRequestFullscreen();
   }
 }
+
 </script>
 </head>
 <body onload='init()'>
 <hr />
 <a href="#" onClick="fullScreen()">Full Screen</a>
 <hr />
-<iframe allowfullscreen="true" src="files/temp/iframe_content_div.html" id="child.container.iframe" height="150px" width="600px">
+<iframe allowfullscreen="true" src="iframe_content_div.html" id="child.container.iframe" height="150px" width="600px">
 </iframe>
 <hr />
 <div id="child.debugInfo">
