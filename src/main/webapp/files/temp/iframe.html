@@ -3,9 +3,9 @@
 <script language="Javascript">
 
 var data=undefined;
+var isFullscreen=undefined;
 function init() {
 	window.addEventListener("message", receiveMessage, false);
-	
 }
 function receiveMessage(event) {
   console.log("recieving message in iframe.html window!");
@@ -26,29 +26,36 @@ function fullScreen() {
 	var imgInline=document.getElementById("img1");
 	openFullscreen(iframe);
 	console.log("done calling requestFullscreen()");
+	var parsedData=JSON.parse(data);
+	parsedData["isFullScreen"]=isFullscreen;
+	data=JSON.stringify(parsedData);
 	frames[0].postMessage(data, "*");
 }
 function exitFullscreen() {
-if (document.exitFullscreen) {
-	document.exitFullscreen();
- } else if (document.mozCancelFullScreen) {
-    document.mozCancelFullScreen();
-  } else if (document.webkitExitFullscreen) {
-    document.webkitExitFullscreen();
-  } else if (document.msExitFullscreen) {
-    document.msExitFullscreen();
-  }
+	console.log(`exiting full-screen mode.`);
+	isFullscreen=false;
+	if (document.exitFullscreen) {
+		document.exitFullscreen();
+	} else if (document.mozCancelFullScreen) {
+		document.mozCancelFullScreen();
+	}else if (document.webkitExitFullscreen) {
+		document.webkitExitFullscreen();
+	}else if (document.msExitFullscreen) {
+		document.msExitFullscreen();
+	}
 }
 function openFullscreen(elem) {
- if (elem.requestFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem.mozRequestFullScreen) { /* Firefox */
-    elem.mozRequestFullScreen();
-  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-    elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) { /* IE/Edge */
-    elem.msRequestFullscreen();
-  }
+	console.log(`entering full-screen mode.`);
+	isFullscreen=true;
+	 if (elem.requestFullscreen) {
+		elem.requestFullscreen();
+	  } else if (elem.mozRequestFullScreen) { /* Firefox */
+		elem.mozRequestFullScreen();
+	  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+		elem.webkitRequestFullscreen();
+	  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+		elem.msRequestFullscreen();
+	  }
 }
 
 </script>
@@ -57,7 +64,7 @@ function openFullscreen(elem) {
 <hr />
 <a href="#" onClick="fullScreen()">Full Screen</a>
 <hr />
-<iframe allowfullscreen="true" src="files/temp/iframe_content_div.html" id="child.container.iframe" height="150px" width="600px">
+<iframe allowfullscreen="true" src="iframe_content_div.html" id="child.container.iframe" height="150px" width="600px">
 </iframe>
 <hr />
 <div id="child.debugInfo">

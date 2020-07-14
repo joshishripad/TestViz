@@ -5,6 +5,8 @@
 function init() {
 	window.addEventListener("message", receiveMessage, false);
 }
+
+
 function receiveMessage(event) {
   console.log("recieving message in iframe_content_div.html window!");
   console.log(event.data);
@@ -21,7 +23,9 @@ window.parent.postMessage(data, "*");
 function content(paramMap) {
 var content = document.getElementById("child.container");
 content.innerText = JSON.stringify(paramMap);
-document.getElementById("exit").style.display="block";
+ if (paramMap.isFullScreen){
+	document.getElementById("exit").style.display="block";
+ }
 }
 </script>
 </head>
